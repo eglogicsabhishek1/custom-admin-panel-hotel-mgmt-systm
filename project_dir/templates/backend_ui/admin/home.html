@@ -1,0 +1,124 @@
+{% extends "backend_ui/admin/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card-panel teal lighten-2 white-text center-align">
+        <h3>Welcome to the Home Page</h3>
+        <p class="flow-text">This is the custom home page for your admin panel.</p>
+    </div>
+
+    <h4 class="header center-align">Manage Models</h4>
+    <div class="search-bar" style="margin-bottom: 20px; text-align: center;">
+        <form method="GET" action="" style="display: inline-flex; align-items: center;">
+            <input type="text" name="search" placeholder="Search models..." value="{{ request.GET.search|default_if_none:'' }}"
+                style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;">
+            <button type="submit" class="btn"
+                style="margin-left: 10px; background-color: #15928a; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div>
+    <div class="table-wrapper">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model in models %}
+                    <tr>
+                        <td>{{ model.name|capfirst }}</td>
+                        <td>
+                            <a href="{% url 'view_model' model_name=model.name %}" class="btn-floating btn-small blue tooltipped"
+                                data-tooltip="View {{ model.name|capfirst }}"><i class="material-icons">visibility</i></a>
+                            <a href="{% url 'edit_model' model_name=model.name pk=1 %}" class="btn-floating btn-small orange tooltipped"
+                                data-tooltip="Edit {{ model.name|capfirst }}"><i class="material-icons">edit</i></a>
+                            <a href="{% url 'delete_model' model_name=model.name pk=1 %}" class="btn-floating btn-small red tooltipped"
+                                data-tooltip="Delete {{ model.name|capfirst }}"><i class="material-icons">delete</i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+  font-family: sans-serif;
+
+}
+
+.table-wrapper {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table-container {
+  max-height: 24rem;
+  overflow: auto;
+  height: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+}
+
+th,
+td {
+  border: none;
+  padding: 1rem 2rem;
+  text-align: left;
+}
+
+th {
+  background-color: #d0f0ee;
+  color: #15928a;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  border-bottom: 2px solid #15928a;
+}
+
+tbody {
+  tr:nth-of-type(even) {
+    background-color: hsl(0 0 95);
+  }
+}
+
+.search-bar {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.search-bar input[type="text"] {
+  padding: 0.5rem;
+  width: 300px;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  background-color: #15928a;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #127a6b;
+}
+</style>
+{% endblock %}

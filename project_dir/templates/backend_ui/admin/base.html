@@ -1,0 +1,100 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<!-- Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% block extrastyle %}{% endblock %}
+{% block extrahead %}{% endblock %}
+{% block responsive %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+</head>
+
+<body class="{% block bodyclass %}{% endblock %}">
+<!-- Navbar -->
+<nav style="background-color: #004d40; padding: 10px; width: 100%;">
+    <div class="nav-wrapper" style="display: flex; align-items: center; justify-content: space-between; margin: 0 auto;">
+        <div style="display: flex; align-items: center;">
+            <img src="/static/backend_ui/admin/images/hotel.png" alt="Logo" style="height: 59px; margin-right: 10px;">
+            <span style="font-size: 1.5rem; color: white;">Admin Panel</span>
+        </div>
+        <ul id="nav-mobile" style="display: flex; gap: 20px; margin-right: 20px;">
+            <li><a href="/custom_admin/home/" style="color: white;">Admin Home</a></li>
+            <li><a href="/custom_admin/logout/" style="color: white;">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<!-- <a href="#content-start" class="skip-to-content-link">{% translate 'Skip to main content' %}</a> -->
+<!-- Container -->
+<div id="container">
+
+    {% block header %}
+      <header id="header">
+        <div id="branding">
+        {% block branding %}{% endblock %}
+        </div>
+        {% block usertools %}
+        {% if has_permission %}
+        <div id="user-tools">
+            {% block welcome-msg %}
+                {% translate 'Welcome,' %}
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            {% endblock %}
+            {% block userlinks %}
+                {% if site_url %}
+                    <a href="{{ site_url }}">{% translate 'View site' %}</a> /
+                {% endif %}
+                {% if user.is_active and user.is_staff %}
+                    {% url 'django-admindocs-docroot' as docsroot %}
+                    {% if docsroot %}
+                        <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> /
+                    {% endif %}
+                {% endif %}
+                {% if user.has_usable_password %}
+                <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a> /
+                {% endif %}
+                <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">{% translate 'Log out' %}</button>
+                </form>
+            {% endblock %}
+        </div>
+        {% endif %}
+        {% endblock %}
+      </header>
+    {% endblock %}
+
+    <div class="main" id="main">
+      <main id="content-start" class="content" tabindex="-1">
+        {% block messages %}
+          {% if messages %}
+            <ul class="messagelist">{% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}</ul>
+          {% endif %}
+        {% endblock messages %}
+        <!-- Content -->
+        <div id="content" class="container">
+          {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+          {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
+          {% block content %}
+            {% block object-tools %}{% endblock %}
+            {{ content }}
+          {% endblock %}
+        </div>
+        <!-- END Content -->
+      </main>
+    </div>
+    <footer id="footer">{% block footer %}{% endblock %}</footer>
+</div>
+<!-- END Container -->
+
+<!-- Materialize JS and Dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

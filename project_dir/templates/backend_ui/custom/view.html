@@ -1,0 +1,131 @@
+{% extends "backend_ui/admin/base.html" %}
+{% load custom_filters %}
+{% block title %}View Model{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="center-align">View {{ model_name }}</h3>
+    
+    <div class="search-bar" style="margin-bottom: 20px; text-align: center;">
+        <form method="GET" action="" style="display: inline-flex; align-items: center;">
+            <input type="text" name="search" placeholder="Search records..." value="{{ request.GET.search|default_if_none:'' }}" 
+                style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;">
+            <button type="submit" class="btn" style="margin-left: 10px; background-color: #15928a; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div>
+
+    <div class="table-wrapper">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              {% for field in fields %}
+                <th>{{ field }}</th>
+              {% endfor %}
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in objects %}
+              <tr>
+                {% for field in fields %}
+                  <td>{{ obj|get_attribute:field }}</td>
+                {% endfor %}
+                <td>
+                  <a href="{% url 'edit_model' model_name=model_name pk=obj.id %}" class="btn-floating btn-small orange tooltipped" data-tooltip="Edit">
+                    <i class="material-icons">edit</i>
+                  </a>
+                  <a href="{% url 'delete_model' model_name=model_name pk=obj.id %}" class="btn-floating btn-small red tooltipped" data-tooltip="Delete">
+                    <i class="material-icons">delete</i>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="add-button">
+      <a href="{% url 'add_model' model_name=model_name %}" class="btn-floating btn-large green tooltipped" data-tooltip="Add New">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
+</div>
+
+<style>
+:root {
+  font-family: sans-serif;
+}
+
+.table-wrapper {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table-container {
+  max-height: 24rem;
+  overflow: auto;
+  height: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+}
+
+th,
+td {
+  border: none;
+  padding: 1rem 2rem;
+  text-align: left;
+}
+
+th {
+  background-color: #d0f0ee;
+  color: #15928a;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  border-bottom: 2px solid #15928a;
+}
+
+tbody {
+  tr:nth-of-type(even) {
+    background-color: hsl(0 0 95);
+  }
+}
+
+.add-button {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+.search-bar input[type="text"] {
+  padding: 0.5rem;
+  width: calc(100% - 100px);
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  background-color: #15928a;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #127a6b;
+}
+</style>
+{% endblock %}

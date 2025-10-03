@@ -1,0 +1,14 @@
+{% extends "backend_ui/admin/base.html" %}
+
+{% block title %}Add Model{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="center-align">Add {{ model_name }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn waves-effect waves-light">Add</button>
+    </form>
+</div>
+{% endblock %}

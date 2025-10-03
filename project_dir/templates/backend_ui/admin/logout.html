@@ -1,0 +1,16 @@
+{% extends "backend_ui/admin/base.html" %}
+
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="center-align">Are you sure you want to logout?</h3>
+    <form method="POST" action="{% url 'custom_logout' %}">
+        {% csrf_token %}
+        <div class="center-align">
+            <button type="submit" class="btn red">Logout</button>
+            <a href="{% url 'home' %}" class="btn grey">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
