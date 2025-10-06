@@ -36,10 +36,10 @@
                         <td>
                             <a href="{% url 'view_model' model_name=model.name %}" class="btn-floating btn-small blue tooltipped"
                                 data-tooltip="View {{ model.name|capfirst }}"><i class="material-icons">visibility</i></a>
-                            <a href="{% url 'edit_model' model_name=model.name pk=1 %}" class="btn-floating btn-small orange tooltipped"
+                            <a href="{% url 'view_model' model_name=model.name %}" class="btn-floating btn-small orange tooltipped"
                                 data-tooltip="Edit {{ model.name|capfirst }}"><i class="material-icons">edit</i></a>
-                            <a href="{% url 'delete_model' model_name=model.name pk=1 %}" class="btn-floating btn-small red tooltipped"
-                                data-tooltip="Delete {{ model.name|capfirst }}"><i class="material-icons">delete</i></a>
+                            <!-- <a href="{% url 'delete_model' model_name=model.name pk=1 %}" class="btn-floating btn-small red tooltipped"
+                                data-tooltip="Delete {{ model.name|capfirst }}"><i class="material-icons">delete</i></a> -->
                         </td>
                     </tr>
                     {% endfor %}

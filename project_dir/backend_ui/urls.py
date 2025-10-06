@@ -10,4 +10,5 @@ urlpatterns = [
     path('edit/<str:model_name>/<int:pk>/', views.edit_model, name='edit_model'),
     path('delete/<str:model_name>/<int:pk>/', views.delete_model, name='delete_model'),
     path('add/<str:model_name>/', views.add_model, name='add_model'),
+    path('add_room/', views.add_room, name='add_room'),
 ]

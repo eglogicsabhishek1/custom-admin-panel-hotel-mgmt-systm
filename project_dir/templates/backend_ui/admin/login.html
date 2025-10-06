@@ -186,8 +186,8 @@
 </div>
 
 <div class="login-card">
-    <h2>Welcome</h2>
-    <p>Log in to your account to continue</p>
+    <h2>Welcome </h2>
+    <p>Log in to your account as Admin</p>
 
     <form class="login-form" method="POST" action="{% url 'custom_login' %}">
         {% csrf_token %}
@@ -203,10 +203,10 @@
 
         <button type="submit">Log In</button>
 
-        <div class="extra-links">
+        <!-- <div class="extra-links">
             <a href="#">Create Account</a>
             <a href="#">Forgot your password?</a>
-        </div>
+        </div> -->
     </form>
 </div>
 </body>
